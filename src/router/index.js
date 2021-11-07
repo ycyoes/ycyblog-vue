@@ -1,10 +1,58 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import BlogDetail from '../views/BlogDetail.vue'
+import BlogEdit from '../views/BlogEdit.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/',
+    name: 'Index',
+    redirect: {name: 'Blogs'}
+  },
+
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+
+  {
+    path: '/blogs',
+    name: 'Blogs',
+    //懒加载
+    component: () => import('../views/Blogs.vue')
+  },
+
+  {
+    path: '/blog/add',  //注意放在path: '/blog/:blogId'之前
+    name: 'BlogAdd',
+    meta: {
+      requireAuth: true
+    },
+    component: BlogEdit
+  },
+
+  {
+    path: '/blog/:blogId',
+    name: 'BlogDetail',
+    component: BlogDetail
+  },
+
+  {
+    path: '/blog/:blogId/edit',
+    name: 'BlogEdit',
+    meta: {
+      requireAuth: true
+    },
+    component: BlogEdit
+  },
+
+  
+
   {
     path: '/',
     name: 'Home',
